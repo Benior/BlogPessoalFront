@@ -1,4 +1,28 @@
-.tmsocial {
-    width: 50px;
-    width: 50px;
+ul.tmsocial {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.tmsocial li {
+    display: inline;
+    padding: 5px;
+}
+
+.fa {
+    font-size: 35pt;
+    color: white;
+    padding: 10px;
+}
+
+.fa-linkedin-square:hover {
+    color: #1199d8;
+}
+
+.fa-github-square:hover {
+    color: #000;
+}
+
+.fa-instagram:hover {
+    color: #f151ac ;
 }
