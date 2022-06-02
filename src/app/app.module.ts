@@ -10,6 +10,8 @@ import { CadastrarComponent } from './cadastrar/cadastrar.component';
 import { HttpClientModule } from '@angular/common/http'; //import extenção http client
 import { FormsModule } from '@angular/forms';
 import { InicioComponent } from './inicio/inicio.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { TemaComponent } from './tema/tema.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { InicioComponent } from './inicio/inicio.component';
     RodapeComponent,
     EntrarComponent,
     CadastrarComponent,
-    InicioComponent
+    InicioComponent,
+    TemaComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,10 @@ import { InicioComponent } from './inicio/inicio.component';
     HttpClientModule, //métodos http crud
     FormsModule //modulo para preenchimento de formulário
   ],
-  providers: [],
+  providers: [{
+   provide: LocationStrategy,
+   useClass: HashLocationStrategy
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
