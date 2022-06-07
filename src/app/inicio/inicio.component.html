@@ -78,9 +78,9 @@
                     <textarea class="form-control" name="texto" id="texto" rows="5"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="tema">Escolha um tema <a routerLink="/tema" data-dismiss="modal">cadastre um novo</a>: </label>
+                    <label for="tema" >Escolha um tema <a routerLink="/tema" data-dismiss="modal">cadastre um novo</a>: </label>
                     <select class="form-control" name="tema" id="tema">
-                        <option value="tema">tema</option>
+                        <option *ngFor="let tema of listarTemas" value="tema">{{tema.descricao}}</option>
                     </select>
                 </div>
             </div>
