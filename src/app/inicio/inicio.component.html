@@ -29,8 +29,9 @@
                 href="#todasPostagens" role="tab" aria-controls="nav-todasPostagens" aria-selected="true">Todas as
                 Postagens</a>
 
-            <a class="nav-link text-secondary font-weight-bold" id="nav-minhasPostagens-tab" data-toggle="tab"
-                href="#minhasPostagens" role="tab" aria-controls="nav-minhasPostagens" aria-selected="false">Minhas
+            <a (click)="findByIdUser()" class="nav-link text-secondary font-weight-bold" id="nav-minhasPostagens-tab"
+                data-toggle="tab" href="#minhasPostagens" role="tab" aria-controls="nav-minhasPostagens"
+                aria-selected="false">Minhas
                 postagens</a>
 
             <a class="nav-link text-secondary font-weight-bold" id="nav-postagemPorTema-tab" data-toggle="tab"
@@ -38,15 +39,58 @@
                 por tema</a>
         </div>
     </nav>
-    <div class="tab-content" id="nav-tabContent">
+    <div class="tab-content my-5" id="nav-tabContent">
         <div class="tab-pane fade show active" id="todasPostagens" role="tabpanel"
-            aria-labelledby="nav-todasPostagens-tab">Todas as Postagens</div>
+            aria-labelledby="nav-todasPostagens-tab">
 
-        <div class="tab-pane fade" id="minhasPostagens" role="tabpanel" aria-labelledby="nav-minhasPostagens-tab">Minhas
-            postagens</div>
+            <div class="card-columns">
+                <div class="card text-center" *ngFor='let item of listaPostagem'>
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.titulo}}</h5>
+                        <small class="text-muted">Tema: {{item.tema.descricao}}</small>
+                        <p class="card-text mt-3">{{item.texto}}</p>
+                        <p class="card-text"><small class="text-muted">Publicado em: {{item.date | date: 'dd/MM/YY' }}
+                                ás {{item.date | date: 'HH:mm'}}</small></p>
+                        <p class="card-text"><small class="text-muted">Publicado por {{item.usuario.nome}}</small></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="minhasPostagens" role="tabpanel" aria-labelledby="nav-minhasPostagens-tab">
+
+            <div class="card-columns">
+                <div class="card text-center" *ngFor='let item of user.postagem'>
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.titulo}}</h5>
+                        <small class="text-muted">Tema: {{item.tema.descricao}}</small>
+                        <p class="card-text mt-3">{{item.texto}}</p>
+                        <p class="card-text"><small class="text-muted">Publicado em: {{item.date | date: 'dd/MM/YY' }}
+                                ás {{item.date | date: 'HH:mm'}}</small></p>
+                        <a class="text-info mr-3" [routerLink]="['/postagem-edit', item.id]">Editar</a>
+                        <a class="text-danger" [routerLink]="['/postagem-delete', item.id]">Apagar</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
         <div class="tab-pane fade" id="postagemPorTema" role="tabpanel" aria-labelledby="nav-postagemPorTema-tab">
-            Postagem por tema</div>
+
+            <div class="card-columns" *ngFor='let tema of listaTema'>
+                <div class="card text-center" *ngFor='let item of tema.postagem'>
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.titulo}}</h5>
+                        <p class="card-text mt-3">{{item.texto}}</p>
+                        <p class="card-text"><small class="text-muted">Publicado em: {{item.date | date: 'dd/MM/YY' }}
+                                ás {{item.date | date: 'HH:mm'}}</small></p>
+                        <p class="card-text"><small class="text-muted">Publicado por {{item.usuario.nome}}</small></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -71,22 +115,28 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="titulo">Título</label>
-                    <input type="text" class="form-control" id="titulo" placeholder="Seu título aqui ">
+                    <input [(ngModel)]='postagem.titulo' type="text" class="form-control" id="titulo"
+                        placeholder="Seu título aqui ">
                 </div>
                 <div class="form-group">
                     <label for="texto">Texto</label>
-                    <textarea class="form-control" name="texto" id="texto" rows="5"></textarea>
+                    <textarea [(ngModel)]='postagem.texto' class="form-control" name="texto" id="texto"
+                        rows="5"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="tema" >Escolha um tema <a routerLink="/tema" data-dismiss="modal">cadastre um novo</a>: </label>
-                    <select class="form-control" name="tema" id="tema">
-                        <option *ngFor="let tema of listarTemas" value="tema">{{tema.descricao}}</option>
+                    <label for="tema">Escolha um tema <a routerLink="/tema" data-dismiss="modal">cadastre um novo</a>:
+                    </label>
+                    <select class="form-control" name="tema" id="tema" [(ngModel)]='idTema' (change)='findByIdTema()'>
+                        <option *ngFor='let item of listaTema' value='{{item.id}}'>
+                            {{item.descricao}}
+                        </option>
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success">Publicar</button>
+                <button type="button" class="btn btn-success" (click)="publicar()"
+                    data-dismiss="modal">Publicar</button>
             </div>
         </div>
     </div>
