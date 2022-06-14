@@ -1,5 +1,4 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Token } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
@@ -20,15 +19,19 @@ export class AuthService {
   }
 
   entrar(userLogin: UserLogin):Observable<UserLogin>{
-    return this.http.post<UserLogin>('https://benior-blogpessoal.herokuapp.com/usuario/logar', userLogin)
+    return this.http.post<UserLogin>('http://localhost:8080/usuario/logar', userLogin)
   }
 
   cadastrar(user:User): Observable <User> {
-    return this.http.post<User>('https://benior-blogpessoal.herokuapp.com/usuario/cadastrar', user)
+    return this.http.post<User>('http://localhost:8080/usuario/cadastrar', user)
+  }
+
+  editar(user:User): Observable<User>{
+    return this.http.put<User>('http://localhost:8080/usuario/atualizar', user, this.token)
   }
 
   getByIdUser(id: number): Observable<User>{    
-    return this.http.get<User>(`https://benior-blogpessoal.herokuapp.com/usuario/${id}`,{headers: new HttpHeaders().set('Authorization', environment.token)})
+    return this.http.get<User>(`http://localhost:8080/usuario/${id}`, this.token)
   }
 
   logado(){
@@ -52,4 +55,6 @@ export class AuthService {
 /*
 https://benior-blogpessoal.herokuapp.com/
 http://localhost:8080/
+
+
 */
