@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AlertasComponent } from '../alertas/alertas.component';
-import { TemaEditComponent } from '../edit/tema-edit/tema-edit.component';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +8,17 @@ import { TemaEditComponent } from '../edit/tema-edit/tema-edit.component';
 export class AlertasService {
 
   constructor(
-    private bsModalService: BsModalService,
+    private bsModalService: BsModalService
 
   ) { }
 
-  private showAlert(message: string, tipo: string) {
+  private showAlert(message: string, type: string) {
     const bsModalRef: BsModalRef = this.bsModalService.show(AlertasComponent)
-    bsModalRef.content.type = tipo
-    bsModalRef.content.mensage = message
+    bsModalRef.content.type = type
+    bsModalRef.content.message = message
 
   }
+
   showAlertDanger(message: string) {
     this.showAlert(message, 'danger')
   }

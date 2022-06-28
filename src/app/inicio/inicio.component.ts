@@ -18,6 +18,7 @@ export class InicioComponent implements OnInit {
 
   postagem: Postagem = new Postagem()
   listaPostagem: Postagem[]
+  tituloPost: string
 
   tema: Tema = new Tema()
   listaTema: Tema[]
@@ -25,6 +26,9 @@ export class InicioComponent implements OnInit {
 
   user: User = new User()
   idUser = environment.id
+
+  key = 'date'
+  reverse = true
 
   constructor(
     private router: Router,
@@ -35,17 +39,15 @@ export class InicioComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    window.scroll(0,0)
+    window.scroll(0, 0)
 
     if (environment.token == '') {
-      // alert('Sua sessão expirou, faça login novamente')
+      this.alertas.showAlertInfo('Sua sessão expirou, faça login novamente')
       this.router.navigate(['/entrar'])
     }
-
-    this.authService.refreshToken();
-    this.getAllPostagem();
-    this.getAllTemas();
-
+    this.authService.refreshToken()
+    this.getAllPostagem()
+    this.getAllTemas()
   }
 
   getAllTemas() {
@@ -66,6 +68,17 @@ export class InicioComponent implements OnInit {
     )
   }
 
+  getPostagemByTitulo() {
+    
+    if (this.tituloPost == '') {
+      this.getAllPostagem()
+    } else{
+      this.postagemService.getByTituloPostagem(this.tituloPost).subscribe((resp: Postagem[]) =>
+      this.listaPostagem = resp
+    )
+    }  
+  }
+
   findByIdUser() {
     this.authService.entrar
     this.authService.logado
@@ -83,10 +96,12 @@ export class InicioComponent implements OnInit {
 
     this.postagemService.postPostagem(this.postagem).subscribe((resp: Postagem) => {
       this.postagem = resp
+
       this.alertas.showAlertSuccess('Postagem realizada com sucesso')
+
       this.postagem = new Postagem()
       this.getAllPostagem()
-      this.getAllTemas();
+      this.getAllTemas()
     })
   }
 

@@ -14,4 +14,8 @@ export class AppComponent {
     public auth: AuthService
     
     ){}
+
+  onInit(){
+    this.auth.refreshToken
+  }
 }

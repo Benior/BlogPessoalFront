@@ -17,8 +17,9 @@ export class UserEditComponent implements OnInit {
   confirmarSenha: string
   tipoUsuario: string
 
+
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
@@ -56,6 +57,7 @@ export class UserEditComponent implements OnInit {
         environment.nome = ''
         environment.foto = ''
         environment.id = 0
+        environment.tipo = ''
         this.router.navigate(['/entrar'])
       })
     }
